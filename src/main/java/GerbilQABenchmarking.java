@@ -5,6 +5,8 @@ import java.util.concurrent.ExecutionException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.aksw.qa.commons.datastructure.Question;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,8 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 @RestController
 public class GerbilQABenchmarking {
 	private Logger log = LoggerFactory.getLogger(GerbilQABenchmarking.class);
+	private ExampleQASystem pipeline = new ExampleQASystem();
+	
 	// test via
 	//TODO unit test for Who is the president of Europe?
 	// curl -d "query=What is the capital of Germany?&lang=en" -X POST http://localhost:8181/ask-gerbil
@@ -34,13 +38,12 @@ public class GerbilQABenchmarking {
 		String question = params.get("query");
 		String lang = params.get("lang");
 
-//		HAWKQuestion q = new HAWKQuestion();
-//		q.getLanguageToQuestion().put("en", question);
-//		List<Answer> answer = pipeline.getAnswersToQuestion(q);
-//		q.setFinalAnswer(answer);
-//
+		Question q = new Question();
+		q.getLanguageToQuestion().put("en", question);
+		JSONObject answer = pipeline.getAnswersToQuestion(q);
+
 		GerbilFinalResponse resp = new GerbilFinalResponse();
-//		resp.setQuestions(q);
+		resp.setQuestions(q);
 		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		String json = ow.writeValueAsString(resp);
 

@@ -3,7 +3,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
 
-import org.aksw.commons.*;
 import org.aksw.qa.commons.datastructure.Question;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,8 +46,8 @@ public class GerbilResponseBuilder {
 	}
 
 	public void setAnswerVec(final Question q) {
-		if (!q.getFinalAnswer().isEmpty()) {
-			JSONObject json = q.getFinalAnswer().get(0).answerAsJson;
+		if (!q.getAnswerAsJson().isEmpty()) {
+			JSONObject json = q.getAnswerAsJson();
 			this.answers.add(json);
 		}
 	}
