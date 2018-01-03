@@ -11,6 +11,8 @@ public class ExampleQASystem {
 	public JSONObject getAnswersToQuestion(final Question q) {
 		JSONObject answer = new JSONObject();
 		q.setAnswerAsQALDJSON(answer);
+		q.setAnswerType("resource");
+		q.setSparqlQuery("en", "SELECT DISTINCT ?s WHERE { ?s ?p ?o } LIMIT 10");
 		
 		return q.getAnswerAsQALDJSON();
 	}
