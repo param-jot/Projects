@@ -1,3 +1,5 @@
+package org.dice.webservice;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Map;
@@ -24,7 +26,7 @@ public class GerbilQABenchmarking {
 	
 	// test via
 	//TODO unit test for Who is the president of Europe?
-	// curl -d "query=What is the capital of Germany?&lang=en" -X POST http://localhost:8181/ask-gerbil
+	// curl -d "query=What is the capital of Germany?&lang=en" -X POST http://localhost:8080/ask-gerbil
 	@RequestMapping(value = "/ask-gerbil", method = RequestMethod.POST)
 	public String askGerbil(@RequestParam Map<String, String> params, final HttpServletResponse response) throws ExecutionException, RuntimeException, IOException, ParseException {
 		log.debug("Received question = " + params.get("query"));

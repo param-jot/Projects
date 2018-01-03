@@ -1,3 +1,4 @@
+package org.dice.webservice;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -17,7 +18,6 @@ public class GerbilResponseBuilder {
 	private Vector<Map<String, String>> question;
 	private Map<String, String> query;
 	private Vector<JSONObject> answers;
-	//private Vector<String> answers;
 	
 	public GerbilResponseBuilder() {
 		this.id = new String();
@@ -46,23 +46,23 @@ public class GerbilResponseBuilder {
 	}
 
 	public void setAnswerVec(final Question q) {
-		if (!q.getAnswerAsJson().isEmpty()) {
-			JSONObject json = q.getAnswerAsJson();
+		if (!q.getAnswerAsQALDJSON().isEmpty()) {
+			JSONObject json = q.getAnswerAsQALDJSON();
 			this.answers.add(json);
 		}
 	}
 
-//	public void setAnswertype(final String answertype) {
-//		this.answertype = answertype;
-//	}
+	public void setAnswertype(final String answertype) {
+		this.answertype = answertype;
+	}
 
 	public String getId() {
 		return this.id;
 	}
 
-//	public String getAnswertype() {
-//		return this.answertype;
-//	}
+	public String getAnswertype() {
+		return this.answertype;
+	}
 
 	public Map<String, String> getQuery() {
 		return this.query;

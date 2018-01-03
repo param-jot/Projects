@@ -1,3 +1,4 @@
+package org.dice.webservice;
 import org.aksw.qa.commons.datastructure.Question;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -8,7 +9,9 @@ public class ExampleQASystem {
 	
 	
 	public JSONObject getAnswersToQuestion(final Question q) {
+		JSONObject answer = new JSONObject();
+		q.setAnswerAsQALDJSON(answer);
 		
-		return q.getAnswerAsJson();
+		return q.getAnswerAsQALDJSON();
 	}
 }
