@@ -1,4 +1,4 @@
-package org.dice.webservice;
+package org.dice.qa;
 import org.aksw.qa.commons.datastructure.Question;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;

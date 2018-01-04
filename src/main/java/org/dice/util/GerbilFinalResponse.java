@@ -1,4 +1,4 @@
-package org.dice.webservice;
+package org.dice.util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

@@ -8,6 +8,8 @@ import java.util.concurrent.ExecutionException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.aksw.qa.commons.datastructure.Question;
+import org.dice.qa.ExampleQASystem;
+import org.dice.util.GerbilFinalResponse;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
