@@ -32,10 +32,10 @@ public class GerbilResponseBuilder {
 		return this;
 	}
 
-	public GerbilResponseBuilder setQuestion(final Question q) {
+	public GerbilResponseBuilder setQuestion(final Question q, String lang) {
 		Map<String, String> gerbilQuestion = new HashMap<>();
 		gerbilQuestion.put("language", q.getLanguageToQuestion().keySet().toArray()[0].toString());
-		gerbilQuestion.put("string", q.getLanguageToQuestion().get("en"));
+		gerbilQuestion.put("string", q.getLanguageToQuestion().get(lang));
 		this.question.add(gerbilQuestion);
 		return this;
 	}

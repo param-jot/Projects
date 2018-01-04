@@ -15,13 +15,13 @@ public class GerbilFinalResponse {
 		questions = new ArrayList<>();
 	}
 	
-	public GerbilFinalResponse setQuestions(Question answer){
+	public GerbilFinalResponse setQuestions(Question answer, String lang){
 		GerbilResponseBuilder responseToGerbil = new GerbilResponseBuilder();
 		responseToGerbil.setId(answer.getId());
 		responseToGerbil.setAnswertype(answer.getAnswerType());
-		responseToGerbil.setQuery(answer.getSparqlQuery("en"));
+		responseToGerbil.setQuery(answer.getSparqlQuery(lang));
 		log.info("query: " + responseToGerbil.getQuery());
-		responseToGerbil.setQuestion(answer);
+		responseToGerbil.setQuestion(answer, lang);
 		responseToGerbil.setAnswerVec(answer);
 		this.questions.add(responseToGerbil);
 		log.info("GerbilQA object: " + this.toString());
