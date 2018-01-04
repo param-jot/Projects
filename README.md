@@ -8,11 +8,11 @@ cd GerbilQA-Benchmarking-Template/
 mvn clean install 
 mvn spring-boot:run
 ```
-The application will be started on http://localhost:8080. Test it by simply sending an HTTP POST request to http://localhost:8080/ask-gerbil with the parameters: <br>
-- `query`: A UTF-8 endoded String <br>
+The application will be started on http://localhost:8080. Test it by simply sending an HTTP POST request to http://localhost:8080/ask-gerbil with the parameters: 
+- `query`: A UTF-8 encoded String <br>
 - `lang`: language of the question <br>
 
 An example request would look like: <br>
 ``` curl -d "query=What is the capital of Germany?&lang=en" -X POST http://localhost:8080/ask-gerbil ```
 
-- To test against GERBIL (http://gerbil-qa.aksw.org/gerbil/config), put the public IP address of your system (instead of localhost) in the webservice URI field. 
+To test against GERBIL (http://gerbil-qa.aksw.org/gerbil/config), put the public IP address of your system (instead of localhost) in the webservice URI field. 
