@@ -8,7 +8,9 @@ import java.util.concurrent.ExecutionException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.aksw.qa.commons.datastructure.Question;
-import org.dice.qa.ExampleQASystem;
+import org.aksw.qa.commons.load.json.ExtendedQALDJSONLoader;
+import org.dice.qa.QASystem;
+import org.dice.qa.impl.ExampleQASystem;
 import org.dice.util.GerbilFinalResponse;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -20,42 +22,39 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.github.jsonldjava.utils.JsonUtils;
 
 @RestController
 public class GerbilQABenchmarking {
 	private Logger log = LoggerFactory.getLogger(GerbilQABenchmarking.class);
-	private ExampleQASystem pipeline = new ExampleQASystem();
+	protected QASystem system;
 	
+	
+	public GerbilQABenchmarking() {
+		/*
+		 * This is an Example QA System providing a static response. 
+		 * Implement your System as a QASystem and create it here
+		 * 
+		 * CREATE YOUR SYSTEM HERE 
+		 */
+		system = new ExampleQASystem();
+		//system = new MyQASystem();
+	}
 
-	@RequestMapping(value = "/ask-gerbil", method = RequestMethod.POST)
+	@RequestMapping(value = "/gerbil", method = RequestMethod.POST)
 	public String askGerbil(@RequestParam Map<String, String> params, final HttpServletResponse response) throws ExecutionException, RuntimeException, IOException, ParseException {
-		log.debug("Received question = " + params.get("query"));
-		log.debug("Language of question = " + params.get("lang"));
-		
-		// CORS to allow for communication between https and http
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-		response.setHeader("Access-Control-Max-Age", "3600");
-		response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
-
 		String question = params.get("query");
 		String lang = params.get("lang");
+		log.debug("Received question = " + question);
+		log.debug("Language of question = " + lang);
 		
 		Question q = new Question();
 		q.getLanguageToQuestion().put(lang, question);
 		
 		//call your QA system here 
-		JSONObject answer = pipeline.getAnswersToQuestion(q);
-		
-		//build response for GERBIL
-		GerbilFinalResponse resp = new GerbilFinalResponse();
-		resp.setQuestions(q, lang);
-		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-		String json = ow.writeValueAsString(resp);
-
-		log.info("\n\n JSON object: \n\n" + json);
-
-		return json;
+		JSONObject answer = system.getAnswersToQuestion(q, lang);
+		log.info("Got: "+JsonUtils.toPrettyString(answer));
+		return JsonUtils.toPrettyString(answer);
 	}
 
 }

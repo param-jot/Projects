@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Vector;
 
 import org.aksw.qa.commons.datastructure.Question;
+import org.aksw.qa.commons.load.json.QaldJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +47,7 @@ public class GerbilResponseBuilder {
 	}
 
 	public void setAnswerVec(final Question q) {
-		if (!q.getAnswerAsQALDJSON().isEmpty()) {
+		if (q.getAnswerAsQALDJSON()!=null && !q.getAnswerAsQALDJSON().isEmpty()) {
 			JSONObject json = q.getAnswerAsQALDJSON();
 			this.answers.add(json);
 		}
