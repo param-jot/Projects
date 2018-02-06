@@ -66,6 +66,12 @@ public class MyQASystem extends AbstractQASystem{
 		Set<String> answerSet = new HashSet<String>();
 		/**
 		 * Here you have to actually ask your system for answers, the types and the sparql query
+		 *
+		 * BE AWARE: Literals have to be in full form. E.g.:
+		 * "test"@en
+		 * "test"
+		 * "23.4"^^<http://www.w3.org/2001/XMLSchema#double>
+		 * and so on
 		 */
 		answerSet.addAll(mySystem.retrieveAnswers(question, lang));
 		
