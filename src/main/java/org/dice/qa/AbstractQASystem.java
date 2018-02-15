@@ -37,6 +37,7 @@ public abstract class AbstractQASystem implements QASystem {
 
 		head.put("vars", varArr);
 
+
 		JSONObject results = new JSONObject();
 		JSONArray bindings = new JSONArray();
 		for (String answer : answers) {
@@ -57,6 +58,7 @@ public abstract class AbstractQASystem implements QASystem {
 			}
 
 			binding.put(varName, var);
+
 
 			bindings.add(binding);
 		}
