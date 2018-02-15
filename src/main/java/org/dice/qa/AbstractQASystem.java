@@ -21,25 +21,43 @@ public abstract class AbstractQASystem implements QASystem {
 
 	@SuppressWarnings("unchecked")
 	private JSONObject getAnswersAsQALD(Set<String> answers, AnswerType answerType) throws IOException, ParseException {
-		
-	//	String varName = answerType.toString().toLowerCase();
+
+
+		String varName = answerType.toString().toLowerCase();
 		JSONObject answerJson = new JSONObject();
 		JSONObject head = new JSONObject();
 		JSONArray varArr = new JSONArray();
-		//varArr.add(varName);
+		if (answerType.equals(AnswerType.BOOLEAN)) {
+			// boolean answers are handled different
+			answerJson.put("head", head);
+			answerJson.put("boolean", Boolean.valueOf(answers.iterator().next()));
+			return answerJson;
+		}
+		varArr.add(varName);
+
 		head.put("vars", varArr);
+
 		JSONObject results = new JSONObject();
 		JSONArray bindings = new JSONArray();
 		for (String answer : answers) {
 			JSONObject binding = new JSONObject();
 			JSONObject var = new JSONObject();
-		//	String answerT = answerType.toString().toLowerCase();
-			/*if("resource".equals(answerT)) {
-				answerT = "uri";
+
+
+			var.put("type", "literal");
+			switch (answerType) {
+			case RESOURCE:
+				var.put("type", answerType.toString().toLowerCase());
+				var.put("value", answer);
+				break;
+			default:
+				// is literal
+				processLiteral(answer, var);
+				break;
 			}
-			var.put("type", answerT);
-			var.put("value", answer);*/
-		//	binding.put(varName, var);
+
+			binding.put(varName, var);
+
 			bindings.add(binding);
 		}
 		results.put("bindings", bindings);
@@ -47,6 +65,39 @@ public abstract class AbstractQASystem implements QASystem {
 		answerJson.put("results", results);
 
 		return answerJson;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void processLiteral(String answer, JSONObject var) {
+		// regular expression to check if answer got a lang tag
+		boolean hasLangTag = answer.matches(".*@\\w+");
+		// matches either a ^^<whatever> or ^^xml:tag datatype
+		boolean hasDatatypeTag = answer.matches(".*\\^\\^(<[^<>]+>|xml:\\w+)");
+		int offset = answer.length();
+		if (hasLangTag) {
+			int langStartIndex = answer.lastIndexOf("@");
+			String lang = answer.substring(langStartIndex + 1);
+			var.put("xml:lang", lang);
+			offset = langStartIndex;
+		} else if (hasDatatypeTag) {
+			int datatypeStartIndex = answer.lastIndexOf("^^");
+			String datatype = answer.substring(datatypeStartIndex + 2);
+			if (datatype.startsWith("<")) {
+				datatype = datatype.substring(1, datatype.length() - 1);
+			}
+			var.put("datatype", datatype);
+			offset = datatypeStartIndex;
+		}
+		int beginIndex = 0;
+		if (answer.startsWith("'''")) {
+			beginIndex = 3;
+			offset -= 3;
+		}
+		if (answer.startsWith("\"") || answer.startsWith("'")) {
+			beginIndex = 1;
+			offset -= 1;
+		}
+		var.put("value", answer.substring(beginIndex, offset));
 	}
 
 	@Override
